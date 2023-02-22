@@ -1,0 +1,10 @@
+{
+    "baseUrl": "https://api.asgardeo.io/t/mmrhackathon2023consumer",
+    "clientID": "EfuFdJFfsP1T3AYVyAbUYAZwWfsa",
+    "scope": [
+        "openid",
+        "profile"
+    ],
+    "signInRedirectURL": "http://localhost:3000",
+    "signOutRedirectURL": "http://localhost:3000"
+}

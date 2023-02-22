@@ -1,0 +1,13 @@
+@import "~bootstrap/scss/bootstrap";
+
+.menu-bar{
+    display:  flex;
+    gap: 10px;
+    justify-content: space-between;
+  
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+  }
+
