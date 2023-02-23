@@ -83,9 +83,22 @@ const App = () => {
         </Container>
       </Navbar>
         <Switch>
-          <Route exact path="/" component={Catalog} />
-          <SecureRoute path="/mycart" component={MyCart} />
-          <SecureRoute path="/admin" component={Admin} />
+            <Route exact path="/" component={Catalog} />
+              <SecureRoute path="/mycart" component={MyCart} />
+              <SecureRoute path="/admin" component={Admin} />
+        {/* {state.isAuthenticated === true && isAdmin === true ? (
+                <>
+              <Route exact path="/admin" component={Admin} />
+              <SecureRoute path="/mycart" component={MyCart} />
+              <SecureRoute path="/" component={Catalog} />
+                </>
+              ) : 
+              <>
+              <Route exact path="/" component={Catalog} />
+              <SecureRoute path="/mycart" component={MyCart} />
+              <SecureRoute path="/admin" component={Admin} />
+                </>
+              } */}
         </Switch>
       </BrowserRouter>
     </>

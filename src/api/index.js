@@ -1,4 +1,4 @@
-import { post } from '../http';
+import { post, put } from '../http';
 
 const BASE_URL =
   'https://b261ad96-c6f7-46dd-a38b-f6d9c73201eb-prod.e1-us-east-azure.choreoapis.dev';
@@ -31,11 +31,45 @@ export const getCatalogs = async (accessToken) => {
           "accept": "application/json",
           'Authorization': 'Bearer ' + accessToken
       },
-      data:{ query: `query MyQuery { catalogs { itemDesc itemName itemImage itemID price stockDetails { color includes } } }`, operationName: "MyQuery" }
+      data:{ query: `query MyQuery { catalogs { itemDesc itemName itemImage itemID price stockDetails { color includes intendedFor material quantity } } }`, operationName: "MyQuery" }
   };
 
   return await post(requestConfig);
 }
+
+export const updateCatalog = async (accessToken, payload) => {
+  console.log("Payload: " + JSON.stringify(payload));
+  const requestConfig = {
+    method: "PUT",
+    url: `https://b261ad96-c6f7-46dd-a38b-f6d9c73201eb-dev.e1-us-east-azure.choreoapis.dev/tbeh/itemapi/1.0.0/items/${payload.itemID}`,
+    headers: {
+        "Content-Type": "application/json",
+        "accept": "application/json",
+        'Authorization': 'Bearer ' + accessToken
+    },
+    data:JSON.stringify(payload)
+  };
+
+  return await put(requestConfig);
+}
+
+export const deleteCatalog = async (accessToken, itemID) => {
+    
+  const requestConfig = {
+      method: "POST",
+      url: 'https://b261ad96-c6f7-46dd-a38b-f6d9c73201eb-prod.e1-us-east-azure.choreoapis.dev/tbeh/catalogapi/1.0.0/',
+      headers: {
+          "Content-Type": "application/json",
+          "accept": "application/json",
+          'Authorization': 'Bearer ' + accessToken
+      },
+      data:{ query: `query MyQuery { catalogs { itemDesc itemName itemImage itemID price stockDetails { color includes intendedFor material quantity } } }`, operationName: "MyQuery" }
+  };
+
+  return await post(requestConfig);
+}
+
+
 
 // async function sendPostRequest(payload) {
 //   const url = 'https://b261ad96-c6f7-46dd-a38b-f6d9c73201eb-prod.e1-us-east-azure.choreoapis.dev/tbeh/catalogapi/1.0.0/';

@@ -19,7 +19,7 @@ root.render(
             signOutRedirectURL: "http://localhost:3000/",
             clientID: "EfuFdJFfsP1T3AYVyAbUYAZwWfsa",
             baseUrl: "https://api.asgardeo.io/t/mmrhackathon2023consumer",
-            scope: [ "openid","profile" ]
+            scope: [ "openid", "email", "groups", "profile"]
         } }
     >
         { /* Rest of your application.  */ }

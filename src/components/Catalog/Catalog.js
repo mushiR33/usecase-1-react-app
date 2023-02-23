@@ -4,28 +4,40 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp as regThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import { faThumbsUp as solidThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { sendPostRequest, getCatalogs } from '../../api';
+import config from '../../config';
 import { useAuthContext } from "@asgardeo/auth-react";
 // import PetStoreNav from '../../App.js';
 
 
 // Component to render the item list
 const PetItemList = () => {
-    const { state, getAccessToken, getBasicUserInfo, getIDToken, getDecodedIDToken } = useAuthContext();
+    const { state, getAccessToken } = useAuthContext();
     const payload = { query: `query MyQuery { catalogs { itemImage itemName itemDesc itemID price stockDetails { color includes } } }`, operationName: "MyQuery" };
 
     const [catalogs, setCatalogs] = useState([]);
 
+    const handleFollowClick = (itemID) => {
+      alert("Follow for item: " + itemID +  " with user: " + state.email);
+    };
+
     useEffect(() => {
 
-      getAccessToken().then((accessToken) => {
-        console.log("access token -----------",accessToken);
-        getCatalogs(accessToken).then(resp => {
+      if (!state?.isAuthenticated) {
+        getCatalogs(config.longLivedAccessToken).then(resp => {
           setCatalogs(resp.data?.data?.catalogs);
           console.log("###use effect variable########", resp.data?.data?.catalogs);
         }).catch(err => console.log(err));
-      }).catch((error) => {
-        //console.log(error);
-      });
+      } else {
+        getAccessToken().then((accessToken) => {
+          console.log("access token -----------",accessToken);
+          getCatalogs(accessToken).then(resp => {
+            setCatalogs(resp.data?.data?.catalogs);
+            console.log("###use effect variable########", resp.data?.data?.catalogs);
+          }).catch(err => console.log(err));
+        }).catch((error) => {
+          //console.log(error);
+        });
+      }
   
     }, []);
 
@@ -110,7 +122,7 @@ const PetItemList = () => {
   
     */}
          {catalogs.map((item) => (  
-          <Col key={item.itemId}> 
+          <Col key={item.itemID}> 
             <img src={item.itemImage} width="300" alt="dog"/><br />
             <h4>{item.itemName}</h4>  
             <p>{item.itemDesc}</p>
@@ -123,7 +135,7 @@ const PetItemList = () => {
             <br />
             <span style={itemPrice}>$ {item.price}</span> <Button variant="danger">Add to cart</Button>
             <br /><br />
-            Follow updates &nbsp;&nbsp;<FontAwesomeIcon icon={regThumbsUp} />
+            Follow updates &nbsp;&nbsp;<FontAwesomeIcon onClick={() => handleFollowClick(item.itemID)} icon={regThumbsUp} />
           </Col>
         ))}
         </Row>

@@ -4,6 +4,10 @@ export const post = async (requestConfig) => {
     return request(requestConfig);
 }
 
+export const put = async (requestConfig) => {
+    return request(requestConfig);
+}
+
 export const get = async (requestConfig) => {
     return request(requestConfig);
 }
